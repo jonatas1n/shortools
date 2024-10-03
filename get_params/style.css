@@ -1,0 +1,28 @@
+.curl, .curl__result {
+  display: grid;
+  justify-items: center;
+  grid-template-columns: 100%;
+  gap: 1rem;
+  width: 100%;
+}
+
+.curl__result {
+  justify-items: stretch;
+}
+
+.curl__input {
+  width: 100%;
+  gap: .5rem;
+  display: grid;
+  grid-template-rows: auto 1fr;
+}
+
+.curl__input__title {
+  display: flex;
+  justify-content: space-between;
+}
+
+textarea {
+  border-radius: 1rem;
+  padding: .75rem;
+}
