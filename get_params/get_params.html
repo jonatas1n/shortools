@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Shortools - Post Params</title>
+    <link rel="stylesheet" href="../assets/css/style.css" />
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <main>
+      <div class="container">
+        <h1>
+          <a href="../shortools" class="title__link">Shortools</a> - Get Params
+        </h1>
+        <hr />
+        <div class="curl">
+          <div class="curl__input">
+            <div class="curl__input__title">Curl da requisição</div>
+            <textarea name="curl_input" id="curl_input"></textarea>
+          </div>
+          <button onclick="escapeText()">Pegar Parâmetros!</button>
+          <div class="curl__input hide">
+            <div class="curl__input__title">Query Params
+              <button class="sm" onclick="copyQuery()">Copy</button>
+            </div>
+            <textarea name="curl_result_query" id="curl_result_query"></textarea>
+          </div>
+          <div class="curl__input hide">
+            <div class="curl__input__title">Parâmetros da Requisição
+              <button class="sm" onclick="copyParams()">Copy</button>
+            </div>
+            <textarea name="curl_result_params" id="curl_result_params"></textarea>
+          </div>
+        </div>
+      </div>
+    </main>
+  </body>
+  <script>
+    const textAreaInput = document.getElementById("curl_input");
+    const textAreaResultQuery = document.getElementById("curl_result_query");
+    const textAreaResultParams = document.getElementById("curl_result_params");
+
+    function getParamsFromCurl(curlStr) {
+      const requestParams = {};
+      const queryParams = {};
+
+      const requestType = curlStr.match(/-X (.+?) /)[1];
+
+      const url = curlStr.match(/curl '(.+?)'/)[1];
+      const urlParams = url.split("?")[1];
+      if (urlParams) {
+        urlParams.split("&").forEach((param) => {
+          const [key, value] = param.split("=");
+          queryParams[key] = value;
+        });
+      }
+
+      const data = curlStr.match(/--data '(.+?)'/)[1];
+      data.split("&").forEach((param) => {
+        const [key, value] = param.split("=");
+        requestParams[key] = value;
+      });
+
+      return { requestParams, requestType, queryParams };
+    }
+
+    function processCurl() {
+      const curlStr = textAreaInput.value;
+      const {requestParams, requestType, queryParams } = getParamsFromCurl(curlStr);
+      textAreaResultQuery.innerText = JSON.stringify(queryParams, null, 2);
+      textAreaResultParams.innerText = JSON.stringify(requestParams, null, 2);
+      showResult();
+    }
+
+    function showResult() {
+      const hideElems = document.querySelectorAll(".hide");
+      hideElems.forEach((elem) => elem.classList.remove("hide"));
+    }
+
+    function copyParams() {
+      textAreaResultParams.select();
+      document.execCommand("copy");
+    }
+
+    function copyQuery() {
+      textAreaResultQuery.select();
+      document.execCommand("copy");
+    }
+
+    const curlExample = `curl 'https://api.example.com/v1/endpoint?query=param' \\
+  -X POST \\
+  --data 'param1=value1&param2=value2'`;
+
+    textAreaInput.innerText = curlExample;
+    processCurl();
+    
+  </script>
+</html>

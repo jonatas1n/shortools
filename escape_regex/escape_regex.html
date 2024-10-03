@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Shortools - Escape Regex</title>
+    <link rel="stylesheet" href="../assets/css/style.css" />
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <main>
+      <div class="container">
+        <h1><a href="../shortools" class="title__link">Shortools</a> - Escape Regex</h1>
+        <hr />
+        <div class="escape">
+          <div class="escape__inputs">
+            <div class="escape__input">
+              <div class="escape__input__title">Seu Regex</div>
+              <textarea name="regex_input" id="regex_input"></textarea>
+            </div>
+            <div class="escape__input">
+              <div class="escape__input__title">
+                Regex Escapado
+                <button onclick="copyResult()" class="sm hide">Copy</button>
+              </div>
+              <textarea name="regex_result" id="regex_result"></textarea>
+            </div>
+          </div>
+          <button onclick="escapeText()">Escape!</button>
+        </div>
+      </div>
+    </main>
+  </body>
+  <script>
+    const textAreaInput = document.getElementById("regex_input");
+    const textAreaResult = document.getElementById("regex_result");
+
+    function escapeRegexForJson(regexStr) {
+      return regexStr
+        .replace(/\\/g, "\\\\")
+        .replace(/"/g, '\\"')
+        .replace(/\n/g, "\\n")
+        .replace(/\r/g, "\\r")
+        .replace(/\t/g, "\\t");
+    }
+
+    function escapeText() {
+      const regexStr = textAreaInput.value;
+      const escapedRegex = escapeRegexForJson(regexStr);
+      textAreaResult.innerText = escapedRegex;
+      showCopyButton();
+    }
+
+    function copyResult() {
+      textAreaResult.select();
+      document.execCommand("copy");
+    }
+
+    function showCopyButton() {
+      const copyButton = document.querySelector(".hide");
+      copyButton.classList.remove("hide");
+    }
+  </script>
+</html>
