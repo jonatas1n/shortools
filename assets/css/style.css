@@ -1,0 +1,33 @@
+:root {
+  --primary-color: #7ab540;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  font-family: sans-serif;
+}
+
+.container {
+  max-width: 100rem;
+  width: 80%;
+  margin-inline: auto;
+}
+
+button {
+  padding: .5rem;
+  background-color: var(--primary-color);
+  color: white;
+  font-weight: 800;
+  border: none;
+  border-radius: .5rem;
+}
+
+button.sm {
+  padding: .25rem;
+  font-size: .75rem;
+}
+
+.hide {
+  display: none;
+}
